@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Real-time Chat</title>
+    <!-- Import Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container my-5">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4>Real-time Chat</h4>
+        </div>
+        <div class="card-body">
+          <div class="chat-messages"></div>
+          <div class="chat-input input-group mt-3">
+            <input type="text" class="form-control" id="name" placeholder="Enter your name" />
+            <input type="text" class="form-control" id="message" placeholder="Type your message..." />
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Import jQuery and Firebase SDK -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+    <!-- Firebase configuration and chat UI logic -->
+    <script>
+      // Initialize Firebase
+      var firebaseConfig = {
+        apiKey: "AIzaSyD_SZeQ9PKIaWKdWZNgCNjRzgjWyAfeVj0",
+        authDomain: "real-time-chat-9994e.firebaseapp.com",
+        projectId: "real-time-chat-9994e",
+        storageBucket: "real-time-chat-9994e.appspot.com",
+        messagingSenderId: "983591956854",
+        appId: "1:983591956854:web:51b65e460c5636e0568a57",
+        measurementId: "G-ZFYV28N60B"
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      // Get a reference to the chat messages database
+      var messagesRef = firebase.database().ref("messages");
+
+      // Listen for new messages and append them to the chat UI
+      messagesRef.on("child_added", function (snapshot) {
+        var message = snapshot.val();
+        var messageHtml = "<div><strong>" + message.name + ": </strong>" + message.message + "</div>";
+        $(".chat-messages").append(messageHtml);
+      });
+
+      // Send a new message when the user clicks the Send button
+      $(".chat-input button").on("click", function () {
+        var name = $("#name").val();
+        var message = $("#message").val();
+
+        if (message !== "") {
+          messagesRef.push({ name: name, message: message });
+          $(".chat-input input").val("");
+        }
+      });
+
+      // Send a new message when the user presses the Enter key
+      $(".chat-input input").on("keypress", function (event) {
+        if (event.which === 13) {
+          event.preventDefault();
+          $(".chat-input button").click();
+        }
+      });
+    </script>
+    <!-- Import Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
+
