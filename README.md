@@ -12,7 +12,7 @@ A Real-time group chat website designed in collaboration with GPT-4. A safe, rel
 
 ## Screenshots
 
-![App Screenshot](https://i.ibb.co/rf88NWL/Real-time-Chat-Brave-20-05-2023-12-43-33.png)
+![App Screenshot](https://i.ibb.co/HTmX8Hj/Real-time-Chat-Brave-20-05-2023-12-43-33.png)
 ![App Screenshot](https://i.ibb.co/QHSQK13/image.png)
 
 
